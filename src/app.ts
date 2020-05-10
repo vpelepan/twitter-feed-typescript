@@ -1,10 +1,9 @@
-import { Component } from './App/Component';
+import { Timeline } from './app/timeline';
 
-// App Class
-class App extends Component<HTMLDivElement, HTMLElement> {
-  constructor() {
-    super('feed-container', 'app', true);
+class App {
+  static init() {
+    new Timeline();
   }
 }
 
-new App();
+App.init();

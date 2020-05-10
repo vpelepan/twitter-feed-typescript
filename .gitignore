@@ -17,6 +17,7 @@ Icon
 /_tmp/*
 
 node_modules/*
+dist/
 
 *.log
 

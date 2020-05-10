@@ -9,19 +9,34 @@
     <script type="module" src="dist/bundle.js"></script>
   </head>
   <body>
-    <!-- templates -->
-    <template id="feed-container">
-      <section class="feed">
-        <header></header>
+    <!-- timeline templates -->
+    <template id="timeline-template">
+      <section id="timeline-container" class="timeline">
+        <ul id="timeline-list" class="timeline-items"></ul>
       </section>
     </template>
 
-    <template id="feed-list">
-      <ul></ul>
+    <!-- timeline item templates -->
+    <template id="timeline-item-template">
+      <li class="timeline-item">
+        <div class="timeline-item--icon">
+          <img src="" alt="">
+        </div>
+        <div class="timeline-item--content">
+          <div class="timeline-item--header">
+            <h4 class="timeline-item--username"></h4>
+            <span class="timeline-item--date"></span>
+          </div>
+          <p class="timeline-item--body"></p>
+        </div>
+      </li>
     </template>
 
-    <template id="feed-item">
-      <li></li>
+    <!-- timeline spinner templates -->
+    <template id="timeline-spinner-template">
+      <div class="timeline-spinner-container">
+        <div class="timeline-spinner"></div>
+      </div>
     </template>
 
     <!-- app container -->

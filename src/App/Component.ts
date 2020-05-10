@@ -1,4 +1,3 @@
-// Component Base Class
 export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
   rootElement: T;
@@ -7,8 +6,7 @@ export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   constructor(
     templateId: string,
     rootElement: string,
-    insertAtBeginnng: boolean,
-    // newElementId?: string,
+    insertAtStart: boolean
   ) {
     this.templateElement = <HTMLTemplateElement>document.getElementById(templateId)!;
     this.rootElement = <T>document.getElementById(rootElement)!;
@@ -19,17 +17,15 @@ export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     );
 
     this.element = <U>importedNode.firstElementChild;
-    // if (newElementId) {
-    //   this.element.id = newElementId;
-    // }
-
-    this.insertElement(insertAtBeginnng);
+    this.insertElement(insertAtStart);
   }
 
-  private insertElement(insertAtBeginnng: boolean) {
+  private insertElement(insertAtBeginning: boolean) {
     this.rootElement.insertAdjacentElement(
-      insertAtBeginnng ? 'afterbegin' : 'beforeend',
+      insertAtBeginning ? 'afterbegin' : 'beforeend',
       this.element
     );
   }
+
+  abstract render(): void;
 }

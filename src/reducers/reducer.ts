@@ -11,7 +11,7 @@ export const reducer = (action: IAction, state: IState) => {
 
       return { ...newItems, ...itemsToRender };
     case 'reset':
-      return { items: [] };
+      return { items: [], itemsToRender: [] };
     default:
       return state;
   }

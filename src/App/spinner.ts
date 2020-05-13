@@ -4,7 +4,7 @@ class Spinner extends Component<HTMLDivElement, HTMLDivElement> {
   private static instance: Spinner;
 
   constructor() {
-    super('timeline-spinner-template', 'app', true);
+    super('spinner-template', 'app', true);
   }
 
   static getInstance() {

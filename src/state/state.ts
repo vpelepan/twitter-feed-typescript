@@ -1,17 +1,17 @@
 import { IState, IAction, Subscriber } from '../models/types';
 import { reducer } from '../reducers/reducer';
 
-// State Management Class
-class Store<T> {
+// State Management
+class State<T> {
   protected subscribers: Subscriber<T>[] = [];
   subscribe(fn: Subscriber<T>) {
     this.subscribers = [...this.subscribers, fn];
   }
 }
 
-// App State Class
-class State extends Store<IState> {
-  private static instance: State;
+// Timeline State
+class TimelineState extends State<IState> {
+  private static instance: TimelineState;
   private state: IState;
 
   private constructor() {
@@ -27,7 +27,7 @@ class State extends Store<IState> {
     if (this.instance) {
       return this.instance;
     }
-    this.instance = new State();
+    this.instance = new TimelineState();
     return this.instance;
   }
 
@@ -46,4 +46,4 @@ class State extends Store<IState> {
   }
 }
 
-export const state = State.getInstance();
+export const state = TimelineState.getInstance();

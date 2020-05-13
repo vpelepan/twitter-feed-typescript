@@ -40,7 +40,7 @@ body {
   width: 100%;
 }
 
-.timeline-spinner {
+.spinner {
   display: block;
   position: fixed;
 
@@ -70,11 +70,11 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.timeline-spinner.is-hidden {
+.spinner.is-hidden {
   opacity: 0;
 }
 
-.timeline-spinner:before {
+.spinner:before {
 	content: "\e006";
 }
 
@@ -89,7 +89,7 @@ body {
 }
 
 .timeline-items {
-  padding: 100px 0;
+  padding: 50px 0;
 }
 
 .timeline-item {

@@ -3,25 +3,21 @@ import  { Item } from './tweet';
 import  { spinner } from './spinner';
 import { IState } from '../models/types';
 import { state } from '../state/state';
-import { fetchTimelineData, resetData } from '../helpers/api';
+import { fetchTimeline, resetData } from '../helpers/api';
 
 export class Timeline extends Component<HTMLDivElement, HTMLElement> {
   private state: IState;
   private interval = <number>window.setInterval(() => {});
   private config: {
-    updateInterval: number;
-    dataCounter: number;
-    termination: number;
-    shouldRender: boolean;
     destroySpinner: boolean;
-    keys: Set<any>;
+    updateInterval: number;
+    terminationLimit: number;
+    defaultRequestLimit: number;
   } = {
-    updateInterval: 2000,
-    dataCounter: 0,
-    termination: 10000,
-    shouldRender: true,
     destroySpinner: false,
-    keys: new Set()
+    updateInterval: 2000,
+    terminationLimit: 10000,
+    defaultRequestLimit: 1
   }
 
   constructor() {
@@ -71,38 +67,41 @@ export class Timeline extends Component<HTMLDivElement, HTMLElement> {
   }
 
   private async fetchData() {
-    const { items } = this.state;
-    const lastItemId = (items[0] && items[0].id) || 0;
+    const { items, latestItemId, shouldFetch } = this.state;
+    const { defaultRequestLimit, terminationLimit } = this.config;
+    const isLimitReached = (items.length + defaultRequestLimit) >= terminationLimit;
+    const requestDataLimit = isLimitReached ? terminationLimit - items.length : defaultRequestLimit;
 
-    if (this.config.dataCounter >= this.config.termination) {
+    if (!shouldFetch) {
       this.stopLoadData();
-      this.resetDatabase();
+      this.resetDatabase(true);
       return;
     }
 
-    const data = await fetchTimelineData(lastItemId);
+    const data = await fetchTimeline(requestDataLimit, latestItemId);
 
     if (data.length) {
-      this.config.dataCounter = data[0].id;
-
       state.dispatch({
         type: 'addItems',
         payload: {
           items: data,
-          latestItemId: data[0].id
+          latestItemId: data[0].id,
+          shouldFetch: !isLimitReached
         }
       });
     }
   }
 
-  private async resetDatabase() {
-    this.config.dataCounter = 0;
-
+  private async resetDatabase(shouldFetch: boolean) {
     const response = await resetData();
 
     state.dispatch({
       type: 'reset',
-      payload: { items: [], latestItemId: 0 }
+      payload: {
+        items: [],
+        latestItemId: 0,
+        shouldFetch
+      }
     });
 
     this.startLoadingData();

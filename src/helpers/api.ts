@@ -1,8 +1,8 @@
 const baseURL = 'https://magiclab-twitter-interview.herokuapp.com/vladyslavpelepan/';
 
-export const fetchTimelineData = async (id: number) => {
+export const fetchTimeline = async (count: number, id: number) => {
   try {
-    const result = await fetch(`${baseURL}api?count=5${'&afterId=' + id}`);
+    const result = await fetch(`${baseURL}api?count=${count}${'&afterId=' + id}`);
 
     if (!result.ok) {
       throw new Error(result.statusText);
